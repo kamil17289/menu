@@ -1,0 +1,33 @@
+{
+    "name": "nethead/menu",
+    "description": "Package for generating HTML menus with objective PHP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kamil Gałkiewicz",
+            "email": "kamil17289@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "nethead/markup": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nethead\\Menu\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nethead\\Menu\\MenuServiceProvider"
+            ],
+            "aliases": {
+                "Markup": "Nethead\\Menu\\MenuProvider"
+            }
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.8"
+    }
+}

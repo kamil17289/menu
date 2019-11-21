@@ -47,5 +47,7 @@ class BasicUrlActivator implements ActivatorInterface {
         if ($parsedUrl['path'] != $parsedCurrentUrl['path']) {
             return false;
         }
+
+        return true;
     }
 }

@@ -4,6 +4,7 @@ namespace Nethead\Menu;
 
 use Nethead\Menu\Contracts\ActivatorInterface;
 use Nethead\Menu\Contracts\RendererInterface;
+use Nethead\Menu\Factories\ItemsFactory;
 use Nethead\Menu\Items\Item;
 
 /**
@@ -58,10 +59,26 @@ class Menu implements \Countable {
 
     /**
      * @param Item $item
+     * @return Menu
      */
     public function setItem(Item $item)
     {
         $this->items[] = $item;
+
+        return $this;
+    }
+
+    /**
+     * @param \Closure $creator
+     */
+    public function createItems(\Closure $creator)
+    {
+        $items = call_user_func($creator, new ItemsFactory([
+            'menu' => $this,
+            'parent' => null
+        ]));
+
+        $this->items += $items;
     }
 
     /**

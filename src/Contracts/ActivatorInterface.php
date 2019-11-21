@@ -2,6 +2,14 @@
 
 namespace Nethead\Menu\Contracts;
 
+/**
+ * Interface ActivatorInterface
+ * @package Nethead\Menu\Contracts
+ */
 interface ActivatorInterface {
-    public function isActive(string $url);
+    /**
+     * @param string $url
+     * @return bool
+     */
+    public function isActive(string $url) : bool;
 }

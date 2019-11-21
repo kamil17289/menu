@@ -4,6 +4,7 @@ namespace Nethead\Menu;
 
 use Nethead\Menu\Contracts\ActivatorInterface;
 use Nethead\Menu\Contracts\RendererInterface;
+use Nethead\Menu\Items\Item;
 
 /**
  * Class Menu
@@ -56,6 +57,14 @@ class Menu implements \Countable {
     }
 
     /**
+     * @param Item $item
+     */
+    public function setItem(Item $item)
+    {
+        $this->items[] = $item;
+    }
+
+    /**
      * Countable interface implementation
      * @return int
      */
@@ -79,11 +88,17 @@ class Menu implements \Countable {
         return self::$renderer;
     }
 
+    /**
+     * @param ActivatorInterface $activator
+     */
     public static function setActivator(ActivatorInterface $activator)
     {
         self::$activator = $activator;
     }
 
+    /**
+     * @return ActivatorInterface
+     */
     public static function getActivator() : ActivatorInterface
     {
         return self::$activator;

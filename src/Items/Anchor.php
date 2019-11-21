@@ -16,7 +16,7 @@ class Anchor extends TextItem {
      * @param Menu $menu
      * @param Item|null $parent
      */
-    public function __construct(string $text, string $anchorName, Menu $menu, ?Item $parent = null)
+    public function __construct(string $text, string $anchorName, Menu $menu, Item $parent = null)
     {
         parent::__construct($text, $menu, $parent);
 

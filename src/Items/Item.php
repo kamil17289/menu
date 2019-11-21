@@ -2,8 +2,9 @@
 
 namespace Nethead\Menu\Items;
 
-use Nethead\Menu\Menu;
 use Nethead\Markup\Html\HasHtmlAttributes;
+use Nethead\Menu\Factories\ItemsFactory;
+use Nethead\Menu\Menu;
 
 /**
  * Class Item
@@ -49,6 +50,24 @@ abstract class Item {
     public function addChild(Item $child)
     {
         array_push($this->children, $child);
+    }
+
+    /**
+     * @param \Closure $creator
+     * @param array $config
+     */
+    public function group(\Closure $creator, array $config = [])
+    {
+        $config['parent'] = $this;
+        $config['menu'] = $this->menu;
+
+        $items = call_user_func($creator, new ItemsFactory($config));
+
+        if (! is_array($items)) {
+            throw new \RuntimeException('Grouping callback should return array!');
+        }
+
+        $this->children += $items;
     }
 
     /**

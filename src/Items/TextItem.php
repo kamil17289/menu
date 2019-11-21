@@ -2,6 +2,7 @@
 
 namespace Nethead\Menu\Items;
 
+use Nethead\Menu\Commons\IconDecorator;
 use Nethead\Menu\Menu;
 
 /**
@@ -9,6 +10,8 @@ use Nethead\Menu\Menu;
  * @package Nethead\Menu\Items
  */
 class TextItem extends Item {
+    use IconDecorator;
+
     /**
      * @var string
      */

@@ -96,6 +96,6 @@ class MarkupRenderer implements RendererInterface {
 
     protected function renderMenu(Menu $menu)
     {
-        
+
     }
 }

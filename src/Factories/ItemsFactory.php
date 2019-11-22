@@ -24,12 +24,28 @@ class ItemsFactory {
     protected $items = [];
 
     /**
+     * Custom factory methods
+     * @var array
+     */
+    protected static $methods = [];
+
+    /**
      * ItemsFactory constructor.
      * @param array $config
      */
     public function __construct(array $config)
     {
         $this->config = $config;
+    }
+
+    /**
+     * Add factory methods for creating your own types of items
+     * @param string $name
+     * @param callable $factory
+     */
+    public static function addFactory(string $name, callable $factory)
+    {
+        self::$methods[$name] = $factory;
     }
 
     /**
@@ -48,7 +64,7 @@ class ItemsFactory {
     {
         $separator = new Separator($this->config['menu'], $this->config['parent']);
 
-        $separator->setHtmlAttributes($attributes);
+        $separator->mergeHtmlAttributes($attributes);
 
         $this->items[] = $separator;
 
@@ -64,7 +80,7 @@ class ItemsFactory {
     {
         $text = new TextItem($text, $this->config['menu'], $this->config['parent']);
 
-        $text->setHtmlAttributes($attributes);
+        $text->mergeHtmlAttributes($attributes);
 
         $this->items[] = $text;
 
@@ -81,7 +97,7 @@ class ItemsFactory {
     {
         $anchor = new Anchor($text, $anchor, $this->config['menu'], $this->config['parent']);
 
-        $anchor->setHtmlAttributes($attributes);
+        $anchor->mergeHtmlAttributes($attributes);
 
         $this->items[] = $anchor;
 
@@ -104,10 +120,27 @@ class ItemsFactory {
             $link = new Internal($text, $url, $this->config['menu'], $this->config['parent']);
         }
 
-        $link->setHtmlAttributes($attributes);
+        $link->mergeHtmlAttributes($attributes);
 
         $this->items[] = $link;
 
         return $link;
+    }
+
+    /**
+     * Call a custom factory method using it's name
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        if (in_array($name, self::$methods)) {
+            $arguments['config'] = $this->config;
+
+            return call_user_func_array(self::$methods[$name], $arguments);
+        }
+
+        throw new \RuntimeException('Factory method ' . $name . ' not found!');
     }
 }

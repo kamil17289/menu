@@ -44,6 +44,11 @@ abstract class Item {
         $this->parent = $parent;
     }
 
+    public function setMenu(Menu $menu)
+    {
+        $this->menu = $menu;
+    }
+
     /**
      * @param Item $child
      */

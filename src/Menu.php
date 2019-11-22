@@ -42,6 +42,20 @@ class Menu implements \Countable {
     }
 
     /**
+     * @param string $name
+     * @param \Closure|null $creator
+     * @return Menu
+     */
+    public static function make(string $name, \Closure $creator = null)
+    {
+        $menu = new self($name);
+
+        $menu->createItems($creator);
+
+        return $menu;
+    }
+
+    /**
      * @return string
      */
     public function getName() : string
@@ -63,6 +77,8 @@ class Menu implements \Countable {
      */
     public function setItem(Item $item)
     {
+        $item->setMenu($this);
+
         $this->items[] = $item;
 
         return $this;
@@ -73,19 +89,27 @@ class Menu implements \Countable {
      */
     public function createItems(\Closure $creator)
     {
-        $items = call_user_func($creator, new ItemsFactory([
+        $factory = new ItemsFactory([
             'menu' => $this,
             'parent' => null
-        ]));
+        ]);
 
-        $this->items += $items;
+        $items = call_user_func($creator, $factory);
+
+        $this->items = array_merge($this->items, $items);
+    }
+
+    public function render()
+    {
+        return self::getRenderer()->render($this);
     }
 
     /**
      * Countable interface implementation
      * @return int
      */
-    public function count() {
+    public function count() : int
+    {
         return count($this->items);
     }
 

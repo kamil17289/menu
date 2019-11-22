@@ -20,7 +20,8 @@ class BasicUrlActivator implements ActivatorInterface {
      */
     public function __construct()
     {
-        $this->currentUrl = $_SERVER['REQUEST_URI'];
+
+        $this->currentUrl = $_SERVER['REQUEST_URI'] ?? '';
 
         if ($this->currentUrl === false) {
             throw new \RuntimeException('Current URL is seriously malformed!');
@@ -33,6 +34,10 @@ class BasicUrlActivator implements ActivatorInterface {
      */
     public function isActive($url) : bool
     {
+        if (empty($this->currentUrl)) {
+            return false;
+        }
+
         if ($url === $this->currentUrl)
             return true;
 
@@ -40,8 +45,10 @@ class BasicUrlActivator implements ActivatorInterface {
 
         $parsedCurrentUrl = parse_url($this->currentUrl);
 
-        if ($parsedUrl['host'] != $parsedCurrentUrl['host']) {
-            return false;
+        if (isset($parsedCurrentUrl['host']) && isset($parsedUrl['host'])) {
+            if ($parsedUrl['host'] != $parsedCurrentUrl['host']) {
+                return false;
+            }
         }
 
         if ($parsedUrl['path'] != $parsedCurrentUrl['path']) {

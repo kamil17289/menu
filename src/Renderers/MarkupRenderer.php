@@ -96,6 +96,16 @@ class MarkupRenderer implements RendererInterface {
 
     protected function renderMenu(Menu $menu)
     {
+        $nav = new Tag('nav', ['class' => 'menu ' . $menu->getName()]);
 
+        $list = new Tag('ul');
+
+        $items = array_map([$this, 'render'], $menu->getItems());
+
+        $list->setContents($items);
+
+        $nav->setContents($list);
+
+        return $nav;
     }
 }

@@ -66,13 +66,11 @@ abstract class Item {
         $config['parent'] = $this;
         $config['menu'] = $this->menu;
 
-        $items = call_user_func($creator, new ItemsFactory($config));
+        $factory = new ItemsFactory($config);
 
-        if (! is_array($items)) {
-            throw new \RuntimeException('Grouping callback should return array!');
-        }
+        call_user_func($creator, $factory);
 
-        $this->children += $items;
+        $this->children = array_merge($this->children, $factory->getCreatedItems());
     }
 
     /**

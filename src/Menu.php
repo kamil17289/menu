@@ -94,9 +94,9 @@ class Menu implements \Countable {
             'parent' => null
         ]);
 
-        $items = call_user_func($creator, $factory);
+        call_user_func($creator, $factory);
 
-        $this->items = array_merge($this->items, $items);
+        $this->items = array_merge($this->items, $factory->getCreatedItems());
     }
 
     public function render()

@@ -38,12 +38,4 @@ class TextItem extends Item {
     {
         return $this->displayText;
     }
-
-    /**
-     * @return string
-     */
-    public function render() : string
-    {
-        return Menu::getRenderer()->render($this);
-    }
 }

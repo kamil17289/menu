@@ -22,12 +22,4 @@ class Anchor extends TextItem {
 
         $this->setHtmlAttribute('href', '#' . $anchorName);
     }
-
-    /**
-     * @return string
-     */
-    public function render(): string
-    {
-        return Menu::getRenderer()->render($this);
-    }
 }

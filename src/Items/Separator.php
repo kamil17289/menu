@@ -17,12 +17,4 @@ class Separator extends Item {
     {
         throw new \Exception('Separators doesn\'t have parental rights!');
     }
-
-    /**
-     * @return string
-     */
-    public function render(): string
-    {
-        Menu::getRenderer()->render($this);
-    }
 }

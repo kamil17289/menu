@@ -10,7 +10,7 @@ use Nethead\Menu\Menu;
  * Class Item
  * @package Nethead\Menu\Items
  */
-abstract class Item {
+class Item {
     use HasHtmlAttributes;
 
     /**
@@ -114,5 +114,8 @@ abstract class Item {
     /**
      * @return string
      */
-    abstract public function render() : string;
+    public function render() : string
+    {
+        return Menu::getRenderer()->render($this);
+    }
 }

@@ -2,8 +2,8 @@
 
 namespace Nethead\Menu\Activators;
 
+use Nethead\Menu\Contracts\ActivableItem;
 use Nethead\Menu\Contracts\ActivatorInterface;
-use Nethead\Menu\Items\Item;
 
 /**
  * Class BasicUrlActivator
@@ -20,7 +20,6 @@ class BasicUrlActivator implements ActivatorInterface {
      */
     public function __construct()
     {
-
         $this->currentUrl = $_SERVER['REQUEST_URI'] ?? '';
 
         if ($this->currentUrl === false) {
@@ -29,11 +28,13 @@ class BasicUrlActivator implements ActivatorInterface {
     }
 
     /**
-     * @param string $url
+     * @param ActivableItem $item
      * @return bool
      */
-    public function isActive($url) : bool
+    public function isActive(ActivableItem $item) : bool
     {
+        $url = $item->getUrl();
+
         if (empty($this->currentUrl)) {
             return false;
         }
@@ -56,5 +57,14 @@ class BasicUrlActivator implements ActivatorInterface {
         }
 
         return true;
+    }
+
+    /**
+     * @param ActivableItem $item
+     * @return mixed|void
+     */
+    public function activate(ActivableItem $item)
+    {
+        
     }
 }

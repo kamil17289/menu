@@ -8,8 +8,14 @@ namespace Nethead\Menu\Contracts;
  */
 interface ActivatorInterface {
     /**
-     * @param string $url
+     * @param ActivableItem $item
      * @return bool
      */
-    public function isActive(string $url) : bool;
+    public function isActive(ActivableItem $item) : bool;
+
+    /**
+     * @param ActivableItem $item
+     * @return mixed
+     */
+    public function activate(ActivableItem $item);
 }

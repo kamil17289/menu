@@ -2,6 +2,7 @@
 
 namespace Nethead\Menu;
 
+use Nethead\Menu\Contracts\ActivableItem;
 use Nethead\Menu\Contracts\ActivatorInterface;
 use Nethead\Menu\Contracts\RendererInterface;
 use Nethead\Menu\Factories\ItemsFactory;
@@ -13,21 +14,31 @@ use Nethead\Menu\Items\Item;
  */
 class Menu implements \Countable {
     /**
+     * Name of this menu
      * @var string
      */
     protected $name = 'Menu';
 
     /**
+     * Items within this menu
      * @var array
      */
     protected $items = [];
 
     /**
+     * Item that was found active
+     * @var null|Item
+     */
+    protected $activeItem = null;
+
+    /**
+     * Renderer instance
      * @var null
      */
     protected static $renderer = null;
 
     /**
+     * Activator instance
      * @var null
      */
     protected static $activator = null;
@@ -99,9 +110,34 @@ class Menu implements \Countable {
         $this->items = array_merge($this->items, $factory->getCreatedItems());
     }
 
+    /**
+     * Render the menu as HTML
+     * @return string
+     */
     public function render()
     {
+        if (is_null($this->activeItem)) {
+            $this->findActiveItem();
+        }
+
         return self::getRenderer()->render($this);
+    }
+
+    /**
+     * Find item that corresponds to current URL
+     */
+    public function findActiveItem()
+    {
+        $activator = self::getActivator();
+
+        foreach ($this->items as $item) {
+            if ($item instanceof ActivableItem) {
+                if ($activator->isActive($item)) {
+                    $activator->activate($item);
+                    return;
+                }
+            }
+        }
     }
 
     /**

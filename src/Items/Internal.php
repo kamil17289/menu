@@ -24,8 +24,6 @@ class Internal extends External {
     public function __construct(string $text, string $url, Menu $menu, Item $parent = null)
     {
         parent::__construct($text, $url, $menu, $parent);
-
-        $this->checkIfActive();
     }
 
     /**
@@ -65,13 +63,5 @@ class Internal extends External {
 
             $item = $parent;
         }
-    }
-
-    /**
-     * @return bool
-     */
-    public function isActive() : bool
-    {
-        return $this->active;
     }
 }

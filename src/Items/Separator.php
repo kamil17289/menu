@@ -2,8 +2,6 @@
 
 namespace Nethead\Menu\Items;
 
-use Nethead\Menu\Menu;
-
 /**
  * Class Separator
  * @package Nethead\Menu\Items

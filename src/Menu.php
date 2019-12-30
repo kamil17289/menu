@@ -130,6 +130,8 @@ class Menu implements \Countable {
     {
         $activator = self::getActivator();
 
+        $found = false;
+
         foreach ($this->items as $item) {
             if ($item instanceof ActivableItem) {
                 if ($activator->isActive($item)) {

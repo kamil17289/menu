@@ -2,13 +2,14 @@
 
 namespace Nethead\Menu\Items;
 
+use Nethead\Menu\Contracts\ActivableItem;
 use Nethead\Menu\Menu;
 
 /**
  * Class Internal
  * @package Nethead\Menu\Items
  */
-class Internal extends External {
+class Internal extends External implements ActivableItem {
     /**
      * @var bool
      */
@@ -28,40 +29,19 @@ class Internal extends External {
 
     /**
      * Mark the item as active
+     * @param bool $status
      */
-    public function activate()
+    public function setActive(bool $status = true)
     {
-        $this->active = true;
+        $this->active = $status;
     }
 
     /**
-     * Use the registered activator to check if the current item is active one
-     * Then instruct the menu to activate all parent items in the tree
+     * Check if this item was recognized as active
+     * @return bool
      */
-    public function checkIfActive()
+    public function isActive() : bool
     {
-        if (Menu::getActivator()->isActive($this->getUrl())) {
-            $this->activate();
-        }
-
-        if ($this->isActive() && $this->hasParent()) {
-            $this->activateTree();
-        }
-    }
-
-    /**
-     * Go up in the items tree and activate all parents
-     */
-    protected function activateTree()
-    {
-        $item = $this;
-
-        while($parent = $item->getParent()) {
-            if (method_exists($parent, 'activate')) {
-                $parent->activate();
-            }
-
-            $item = $parent;
-        }
+        return $this->active;
     }
 }

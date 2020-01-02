@@ -2,20 +2,23 @@
 
 namespace Nethead\Menu\Contracts;
 
+use Nethead\Menu\Items\Item;
+
 /**
  * Interface ActivatorInterface
  * @package Nethead\Menu\Contracts
  */
-interface ActivatorInterface {
+interface ActivatorInterface
+{
     /**
      * @param ActivableItem $item
      * @return bool
      */
-    public function isActive(ActivableItem $item) : bool;
+    public function test(ActivableItem $item): bool;
 
     /**
-     * @param ActivableItem $item
+     * @param Item $item
      * @return mixed
      */
-    public function activate(ActivableItem $item);
+    public function activate(Item $item);
 }

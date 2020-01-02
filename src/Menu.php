@@ -125,19 +125,25 @@ class Menu implements \Countable {
 
     /**
      * Find item that corresponds to current URL
+     * @param array $items
      */
-    public function findActiveItem()
+    public function findActiveItem(array $items = [])
     {
-        $activator = self::getActivator();
+        if (empty($items)) {
+            $items = $this->items;
+        }
 
-        $found = false;
-
-        foreach ($this->items as $item) {
+        foreach ($items as $item) {
             if ($item instanceof ActivableItem) {
-                if ($activator->isActive($item)) {
-                    $activator->activate($item);
+                if (self::getActivator()->test($item)) {
+                    self::getActivator()->activate($item);
+                    $this->activeItem = $item;
                     return;
                 }
+            }
+
+            if ($item->hasChildren()) {
+                $this->findActiveItem($item->getChildren());
             }
         }
     }

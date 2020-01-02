@@ -2,11 +2,14 @@
 
 namespace Nethead\Menu\Contracts;
 
+/**
+ * Interface ActivableItem
+ * @package Nethead\Menu\Contracts
+ */
 interface ActivableItem {
-    public function getUrl() : string;
+    public function setActive(bool $status);
+    public function isActive() : bool;
     public function hasParent() : bool;
-    public function getChildren() : array;
-    public function activate() : void;
-    public function activateTree() : void;
-
+    public function hasChildren() : bool;
+    public function getUrl() : string;
 }

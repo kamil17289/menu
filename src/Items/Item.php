@@ -92,14 +92,16 @@ class Item {
     /**
      * @return bool
      */
-    public function hasParent() {
+    public function hasParent() : bool
+    {
         return ! is_null($this->parent);
     }
 
     /**
      * @return Item|null
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 

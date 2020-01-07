@@ -35,21 +35,25 @@ class Menu implements \Countable {
      * Renderer instance
      * @var null
      */
-    protected static $renderer = null;
+    protected $renderer = null;
 
     /**
      * Activator instance
      * @var null
      */
-    protected static $activator = null;
+    protected $activator = null;
 
     /**
      * Menu constructor.
      * @param string $name
+     * @param ActivatorInterface $activator
+     * @param RendererInterface $renderer
      */
-    public function __construct(string $name)
+    public function __construct(string $name, ActivatorInterface $activator, RendererInterface $renderer)
     {
         $this->name = $name;
+        $this->activator = $activator;
+        $this->renderer = $renderer;
     }
 
     /**
@@ -158,34 +162,18 @@ class Menu implements \Countable {
     }
 
     /**
-     * @param RendererInterface $renderer
-     */
-    public static function setRenderer(RendererInterface $renderer)
-    {
-        self::$renderer = $renderer;
-    }
-
-    /**
      * @return RendererInterface
      */
-    public static function getRenderer() : RendererInterface
+    public function getRenderer() : RendererInterface
     {
-        return self::$renderer;
-    }
-
-    /**
-     * @param ActivatorInterface $activator
-     */
-    public static function setActivator(ActivatorInterface $activator)
-    {
-        self::$activator = $activator;
+        return $this->renderer;
     }
 
     /**
      * @return ActivatorInterface
      */
-    public static function getActivator() : ActivatorInterface
+    public function getActivator() : ActivatorInterface
     {
-        return self::$activator;
+        return $this->activator;
     }
 }

@@ -118,6 +118,6 @@ class Item {
      */
     public function render() : string
     {
-        return Menu::getRenderer()->render($this);
+        return $this->menu->getRenderer()->render($this);
     }
 }

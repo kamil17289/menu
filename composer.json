@@ -20,10 +20,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Nethead\\Menu\\MenuServiceProvider"
+                "Nethead\\Integrations\\Laravel\\MenuServiceProvider"
             ],
             "aliases": {
-                "Markup": "Nethead\\Menu\\MenuProvider"
+                "Menu": "Nethead\\Integrations\\Laravel\\MenuFacade"
             }
         }
     },

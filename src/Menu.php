@@ -57,20 +57,6 @@ class Menu implements \Countable {
     }
 
     /**
-     * @param string $name
-     * @param \Closure|null $creator
-     * @return Menu
-     */
-    public static function make(string $name, \Closure $creator = null)
-    {
-        $menu = new self($name);
-
-        $menu->createItems($creator);
-
-        return $menu;
-    }
-
-    /**
      * @return string
      */
     public function getName() : string

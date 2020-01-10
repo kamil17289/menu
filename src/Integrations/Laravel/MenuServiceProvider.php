@@ -1,6 +1,6 @@
 <?php
 
-namespace Nethead\Integrations\Laravel;
+namespace Nethead\Menu\Integrations\Laravel;
 
 use Illuminate\Support\ServiceProvider;
 use Nethead\Menu\Repository;

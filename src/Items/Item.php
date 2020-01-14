@@ -44,6 +44,10 @@ class Item {
         $this->parent = $parent;
     }
 
+    /**
+     * Set the menu which this Item belongs to
+     * @param Menu $menu
+     */
     public function setMenu(Menu $menu)
     {
         $this->menu = $menu;

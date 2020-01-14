@@ -23,6 +23,7 @@ trait IconDecorator {
     /**
      * @param string $iconClass
      * @param string $position
+     * @return self
      */
     public function setIcon(string $iconClass, string $position = 'left')
     {
@@ -32,6 +33,8 @@ trait IconDecorator {
         else {
             $this->icons[$position] = [$iconClass];
         }
+
+        return $this;
     }
 
     /**

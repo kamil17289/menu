@@ -14,10 +14,14 @@ use Nethead\Markup\Html\A;
 use Nethead\Menu\Menu;
 
 /**
- * Class ObRenderer
+ * Class MarkupRenderer
  * @package Nethead\Menu\Renderers
  */
 class MarkupRenderer implements RendererInterface {
+    /**
+     * List of classes along with their render methods
+     * @var array
+     */
     protected static $renderers = [
         Menu::class         => 'renderMenu',
         Anchor::class       => 'renderLink',
@@ -27,6 +31,11 @@ class MarkupRenderer implements RendererInterface {
         Separator::class    => 'renderSeparator',
     ];
 
+    /**
+     * Use this method to render any of the supported classes
+     * @param object $item
+     * @return string
+     */
     public function render(object $item) : string
     {
         $itemType = get_class($item);
@@ -44,11 +53,20 @@ class MarkupRenderer implements RendererInterface {
         return call_user_func($renderer, $item);
     }
 
+    /**
+     * Add a new className => renderer binding
+     * @param string $className
+     * @param callable $renderer
+     */
     public static function addRenderer(string $className, callable $renderer)
     {
         self::$renderers[$className] = $renderer;
     }
 
+    /**
+     * @param Item $item
+     * @return string
+     */
     protected function renderLink(Item $item)
     {
         $wrapper = new Tag('li');
@@ -68,6 +86,10 @@ class MarkupRenderer implements RendererInterface {
         return $wrapper->__toString();
     }
 
+    /**
+     * @param TextItem $item
+     * @return string
+     */
     protected function renderText(TextItem $item)
     {
         $wrapper = new Tag('li');
@@ -87,6 +109,10 @@ class MarkupRenderer implements RendererInterface {
         return $wrapper->__toString();
     }
 
+    /**
+     * @param Separator $item
+     * @return string
+     */
     protected function renderSeparator(Separator $item)
     {
         $separator = new Tag('li', [], new Tag('hr'));
@@ -94,6 +120,10 @@ class MarkupRenderer implements RendererInterface {
         return $separator->__toString();
     }
 
+    /**
+     * @param Menu $menu
+     * @return Tag
+     */
     protected function renderMenu(Menu $menu)
     {
         $nav = new Tag('nav', ['class' => 'menu ' . $menu->getName()]);

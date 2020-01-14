@@ -120,6 +120,14 @@ class Item {
     /**
      * @return string
      */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * @return string
+     */
     public function render() : string
     {
         return $this->menu->getRenderer()->render($this);

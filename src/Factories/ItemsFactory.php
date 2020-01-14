@@ -5,6 +5,7 @@ namespace Nethead\Menu\Factories;
 use Nethead\Menu\Items\Anchor;
 use Nethead\Menu\Items\External;
 use Nethead\Menu\Items\Internal;
+use Nethead\Menu\Items\Item;
 use Nethead\Menu\Items\Separator;
 use Nethead\Menu\Items\TextItem;
 
@@ -57,6 +58,30 @@ class ItemsFactory {
     }
 
     /**
+     * Process created item before returning it
+     * @param Item $item
+     * @return Item
+     */
+    protected function processBeforeReturn(Item $item)
+    {
+        if (isset($this->config['template']) && ! empty($this->config['template'])) {
+            $item->setTemplate($this->config['template']);
+        }
+
+        if (method_exists($item, 'setIcon')) {
+            if (isset($this->config['icon']['left'])) {
+                $item->setIcon($this->config['icon']['left']);
+            }
+
+            if (isset($this->config['icon']['right'])) {
+                $item->setIcon($this->config['icon']['right'], 'right');
+            }
+        }
+
+        return $item;
+    }
+
+    /**
      * @param array $attributes
      * @return Separator
      */
@@ -68,7 +93,7 @@ class ItemsFactory {
 
         $this->items[] = $separator;
 
-        return $separator;
+        return $this->processBeforeReturn($separator);
     }
 
     /**
@@ -84,7 +109,7 @@ class ItemsFactory {
 
         $this->items[] = $text;
 
-        return $text;
+        return $this->processBeforeReturn($text);
     }
 
     /**
@@ -101,7 +126,7 @@ class ItemsFactory {
 
         $this->items[] = $anchor;
 
-        return $anchor;
+        return $this->processBeforeReturn($anchor);
     }
 
     /**
@@ -124,7 +149,7 @@ class ItemsFactory {
 
         $this->items[] = $link;
 
-        return $link;
+        return $this->processBeforeReturn($link);
     }
 
     /**

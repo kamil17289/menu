@@ -111,10 +111,13 @@ class Item {
 
     /**
      * @param string $template
+     * @return self
      */
     public function setTemplate(string $template)
     {
         $this->template = $template;
+
+        return $this;
     }
 
     /**

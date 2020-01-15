@@ -31,7 +31,7 @@ class Item {
     /**
      * @var string
      */
-    protected $template = '';
+    protected $template = null;
 
     /**
      * Item constructor.

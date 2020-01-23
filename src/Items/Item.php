@@ -2,7 +2,7 @@
 
 namespace Nethead\Menu\Items;
 
-use Nethead\Markup\Html\HasHtmlAttributes;
+use Nethead\Markup\Commons\HasHtmlAttributes;
 use Nethead\Menu\Factories\ItemsFactory;
 use Nethead\Menu\Menu;
 

@@ -6,29 +6,39 @@ use Nethead\Menu\Contracts\ActivableItem;
 use Nethead\Menu\Menu;
 
 /**
- * Class Internal
+ * Internal Item is pretty much the same as Extenal. The only difference
+ * is that it can be activated.
+ *
  * @package Nethead\Menu\Items
  */
 class Internal extends External implements ActivableItem {
     /**
+     * Indicates if the Item has been activated.
+     *
      * @var bool
      */
     protected $active = false;
 
     /**
      * Internal constructor.
-     * @param string $text
-     * @param string $url
+     *
+     * @param array $innerHTML
+     *  Everything you want to display inside the Item's HTML.
      * @param Menu $menu
+     *  Menu instance that this item will be bind to.
      * @param Item|null $parent
+     *  Parent Item if this is a child.
+     * @param string $url
+     *  Internal URL for this item.
      */
-    public function __construct(string $text, string $url, Menu $menu, Item $parent = null)
+    public function __construct(array $innerHTML, string $url, Menu $menu, Item $parent = null)
     {
-        parent::__construct($text, $url, $menu, $parent);
+        parent::__construct($innerHTML, $url, $menu, $parent);
     }
 
     /**
-     * Mark the item as active
+     * Mark the item as active.
+     *
      * @param bool $status
      */
     public function setActive(bool $status = true)
@@ -37,7 +47,8 @@ class Internal extends External implements ActivableItem {
     }
 
     /**
-     * Check if this item was recognized as active
+     * Check if this item was activated.
+     *
      * @return bool
      */
     public function isActive() : bool

@@ -3,18 +3,26 @@
 namespace Nethead\Menu;
 
 /**
- * Class Repository
+ * Repository is a central storage for all menus you define.
+ * Read through the methods documentation to check how to do add, retrieve and render your menus.
+ *
  * @package Nethead\Menu
  */
 final class Repository implements \ArrayAccess {
     /**
+     * Menus array stores all your defined menus.
+     *
      * @var array
      */
     protected static $menus = [];
 
     /**
+     * Get the menu by its name.
+     *
      * @param string $name
+     *  Name of the menu you specified when added to a repository.
      * @return Menu|null
+     *  Menu object if the menu is registered, or null if it's not.
      */
     public static function get(string $name)
     {
@@ -26,8 +34,15 @@ final class Repository implements \ArrayAccess {
     }
 
     /**
+     * Register new menu in the repository.
+     *
      * @param Menu $menu
+     *  The Menu object representing your menu.
      * @param string $name
+     *  The name for the menu. This name is later used for retrieving the menu
+     *  with 'get' method. If empty, Repository will use the name from the Menu object.
+     * @throws \RuntimeException
+     *  Throws \RuntimeException if the name has already been used
      */
     public static function set(Menu $menu, string $name = '')
     {
@@ -43,8 +58,13 @@ final class Repository implements \ArrayAccess {
     }
 
     /**
+     * Render entire menu of a given name to a HTML string.
+     *
      * @param $name
+     *  Name of the registered menu that will be rendered.
      * @return string
+     *  The Menu object rendered into string
+     *  or empty string if the given menu is not registered.
      */
     public function render($name)
     {
@@ -56,6 +76,8 @@ final class Repository implements \ArrayAccess {
     }
 
     /**
+     * ArrayAccess implementation.
+     *
      * @param mixed $offset
      * @return bool
      */
@@ -65,6 +87,8 @@ final class Repository implements \ArrayAccess {
     }
 
     /**
+     * ArrayAccess implementation.
+     *
      * @param mixed $offset
      * @return mixed|null
      */
@@ -78,6 +102,8 @@ final class Repository implements \ArrayAccess {
     }
 
     /**
+     * ArrayAccess implementation.
+     *
      * @param mixed $offset
      * @param mixed $value
      */
@@ -87,6 +113,8 @@ final class Repository implements \ArrayAccess {
     }
 
     /**
+     * ArrayAccess implementation.
+     *
      * @param mixed $offset
      */
     public function offsetUnset($offset)

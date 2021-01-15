@@ -5,10 +5,11 @@ namespace Nethead\Menu\Items;
 use Nethead\Menu\Menu;
 
 /**
- * Class External
+ * External Item is creating a link which goes outside of your website.
+ *
  * @package Nethead\Menu\Items
  */
-class External extends TextItem {
+class External extends SimpleItem {
     /**
      * @var string
      */
@@ -16,21 +17,26 @@ class External extends TextItem {
 
     /**
      * External constructor.
-     * @param string $text
-     * @param string $url
+     *
+     * @param array $innerHTML
+     *  Everything you want to display inside the Item's HTML.
      * @param Menu $menu
+     *  Menu instance that this item will be bind to.
      * @param Item|null $parent
+     *  Parent Item if this is a child.
+     * @param string $url
+     *  URL you want to link to with this item.
      */
-    public function __construct(string $text, string $url, Menu $menu, Item $parent = null)
+    public function __construct(array $innerHTML, string $url, Menu $menu, Item $parent = null)
     {
-        parent::__construct($text, $menu, $parent);
+        parent::__construct($innerHTML, $menu, $parent);
 
         $this->url = $url;
-
-        $this->setHtmlAttribute('href', $url);
     }
 
     /**
+     * Get the URL.
+     *
      * @return string
      */
     public function getUrl() : string

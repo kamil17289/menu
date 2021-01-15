@@ -9,25 +9,15 @@
         }
     ],
     "require": {
-        "php": "^7.1",
-        "nethead/markup": "^1.4"
+        "php": "^7.3",
+        "nethead/markup": "^2.0"
     },
     "autoload": {
         "psr-4": {
             "Nethead\\Menu\\": "src/"
         }
     },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Nethead\\Menu\\Integrations\\Laravel\\MenuServiceProvider"
-            ],
-            "aliases": {
-                "Menu": "Nethead\\Menu\\Integrations\\Laravel\\MenuFacade"
-            }
-        }
-    },
     "require-dev": {
-        "orchestra/testbench": "^3.8"
+        "phpunit/phpunit": "^9"
     }
 }

@@ -7,32 +7,50 @@ use Nethead\Menu\Items\External;
 use Nethead\Menu\Items\Internal;
 use Nethead\Menu\Items\Item;
 use Nethead\Menu\Items\Separator;
-use Nethead\Menu\Items\TextItem;
+use Nethead\Menu\Items\SimpleItem;
+use Nethead\Menu\Items\Special;
 
 /**
- * Class ItemsFactory
+ * ItemsFactory is a helper for quick creating whole sets of items.
+ *
+ * @see \Nethead\Menu\Menu::createItems()
  * @package Nethead\Menu\Factories
  */
 class ItemsFactory {
     /**
+     * Factory configuration.
+     *
      * @var array
      */
     protected $config = [];
 
     /**
+     * List of items created by this factory.
+     *
      * @var array
      */
     protected $items = [];
 
     /**
-     * Custom factory methods
+     * Custom factory methods.
+     * Array of your own factory methods. You can add this by extending the ItemsFactory,
+     * or on runtime using the addFactory methods.
+     *
+     * @see ItemsFactory::addFactory()
      * @var array
      */
     protected static $methods = [];
 
     /**
      * ItemsFactory constructor.
+     *
      * @param array $config
+     *  Factory configuration, holds menu and parent objects references that
+     *  will be applied to every item created with this factory instance.
+     *  It must contain at least two keys: 'menu' and 'parent'.
+     *   - 'menu' is a reference to the Menu object that will hold the items created with this factory
+     *   - 'parent' is the reference to a parent item, if the factory is used for creating the sub-menu, null otherwise.
+     *   - 'template' (optional) (string) sets the template for all items created with this factory
      */
     public function __construct(array $config)
     {
@@ -40,9 +58,12 @@ class ItemsFactory {
     }
 
     /**
-     * Add factory methods for creating your own types of items
+     * Add factory methods for creating your own types of items.
+     *
      * @param string $name
+     *  Short name of the factory you are registering.
      * @param callable $factory
+     *  The factory method
      */
     public static function addFactory(string $name, callable $factory)
     {
@@ -50,6 +71,8 @@ class ItemsFactory {
     }
 
     /**
+     * Returns all items created by this factory.
+     *
      * @return array
      */
     public function getCreatedItems() : array
@@ -58,98 +81,117 @@ class ItemsFactory {
     }
 
     /**
-     * Process created item before returning it
+     * Process created item before returning it.
+     *
      * @param Item $item
      * @return Item
      */
-    protected function processBeforeReturn(Item $item)
+    protected function processBeforeReturn(Item $item): Item
     {
         if (isset($this->config['template']) && ! empty($this->config['template'])) {
             $item->setTemplate($this->config['template']);
-        }
-
-        if (method_exists($item, 'setIcon')) {
-            if (isset($this->config['icon']['left'])) {
-                $item->setIcon($this->config['icon']['left']);
-            }
-
-            if (isset($this->config['icon']['right'])) {
-                $item->setIcon($this->config['icon']['right'], 'right');
-            }
         }
 
         return $item;
     }
 
     /**
-     * @param array $attributes
+     * Create a separator menu item.
+     * Separators doesn't have any function, they are just for decoration.
+     *
      * @return Separator
      */
-    public function separator(array $attributes = [])
+    public function separator(): Separator
     {
         $separator = new Separator($this->config['menu'], $this->config['parent']);
 
-        $separator->mergeHtmlAttributes($attributes);
-
         $this->items[] = $separator;
 
-        return $this->processBeforeReturn($separator);
+        $this->processBeforeReturn($separator);
+
+        return $separator;
     }
 
     /**
-     * @param string $text
-     * @param array $attributes
-     * @return TextItem|string
+     * @param array $innerHTML
+     * @return SimpleItem
      */
-    public function text(string $text, array $attributes = [])
+    public function simple(array $innerHTML): SimpleItem
     {
-        $text = new TextItem($text, $this->config['menu'], $this->config['parent']);
+        $simpleItem = new SimpleItem($innerHTML, $this->config['menu'], $this->config['parent']);
 
-        $text->mergeHtmlAttributes($attributes);
+        $this->items[] = $simpleItem;
 
-        $this->items[] = $text;
+        $this->processBeforeReturn($simpleItem);
 
-        return $this->processBeforeReturn($text);
+        return $simpleItem;
     }
 
     /**
-     * @param string $text
-     * @param string $anchor
-     * @param array $attributes
-     * @return Anchor|string
+     * @param array $innerHTML
+     * @param string $anchorID
+     * @return Anchor
      */
-    public function anchor(string $text, string $anchor, array $attributes = [])
+    public function anchor(array $innerHTML, string $anchorID): Anchor
     {
-        $anchor = new Anchor($text, $anchor, $this->config['menu'], $this->config['parent']);
-
-        $anchor->mergeHtmlAttributes($attributes);
+        $anchor = new Anchor($innerHTML, $anchorID, $this->config['menu'], $this->config['parent']);
 
         $this->items[] = $anchor;
 
-        return $this->processBeforeReturn($anchor);
+        $this->processBeforeReturn($anchor);
+
+        return $anchor;
     }
 
     /**
-     * @param string $text
-     * @param string $url
-     * @param array $attributes
-     * @param bool $external
-     * @return External|Internal
+     * Create a special destination link, like mailto: or tel:
+     * 
+     * @param array $innerHTML
+     * @param string $scheme
+     * @param string $href
+     * @return Special
      */
-    public function link(string $text, string $url, array $attributes = [], $external = false)
+    public function special(array $innerHTML, string $scheme, string $href): Special
     {
-        if ($external) {
-            $link = new External($text, $url, $this->config['menu'], $this->config['parent']);
-        }
-        else {
-            $link = new Internal($text, $url, $this->config['menu'], $this->config['parent']);
-        }
-
-        $link->mergeHtmlAttributes($attributes);
+        $link = new Special($innerHTML, $scheme, $href, $this->config['menu'], $this->config['parent']);
 
         $this->items[] = $link;
 
-        return $this->processBeforeReturn($link);
+        $this->processBeforeReturn($link);
+
+        return $link;
+    }
+
+    /**
+     * @param array $innerHTML
+     * @param string $url
+     * @return External
+     */
+    public function external(array $innerHTML, string $url): External
+    {
+        $link = new External($innerHTML, $url, $this->config['menu'], $this->config['parent']);
+
+        $this->items[] = $link;
+
+        $this->processBeforeReturn($link);
+
+        return $link;
+    }
+
+    /**
+     * @param array $innerHTML
+     * @param $url
+     * @return Internal
+     */
+    public function internal(array $innerHTML, $url): Internal
+    {
+        $link = new Internal($innerHTML, $url, $this->config['menu'], $this->config['parent']);
+
+        $this->items[] = $link;
+
+        $this->processBeforeReturn($link);
+
+        return $link;
     }
 
     /**

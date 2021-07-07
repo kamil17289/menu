@@ -8,7 +8,7 @@ Package is distributed with the Packagist and Composer.
 First, install the package with Composer.
 
 ```shell
-composer install nethead/menu
+composer require nethead/menu
 ```
 
 If you are already working in a project with dependencies managed by Composer 

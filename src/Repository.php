@@ -24,7 +24,7 @@ final class Repository implements \ArrayAccess {
      * @return Menu|null
      *  Menu object if the menu is registered, or null if it's not.
      */
-    public static function get(string $name)
+    public static function get(string $name): ?Menu
     {
         if (array_key_exists($name, self::$menus)) {
             return self::$menus[$name];
@@ -58,7 +58,7 @@ final class Repository implements \ArrayAccess {
     }
 
     /**
-     * Render entire menu of a given name to a HTML string.
+     * Render entire menu of a given name to an HTML string.
      *
      * @param $name
      *  Name of the registered menu that will be rendered.
@@ -66,7 +66,7 @@ final class Repository implements \ArrayAccess {
      *  The Menu object rendered into string
      *  or empty string if the given menu is not registered.
      */
-    public function render($name)
+    public function render($name): string
     {
         if ($menu = self::get($name)) {
             return $menu->render();

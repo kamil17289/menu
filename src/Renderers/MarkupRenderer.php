@@ -9,10 +9,10 @@ use Nethead\Markup\Foundation\Tag;
 use Nethead\Menu\Items\Separator;
 use Nethead\Menu\Items\External;
 use Nethead\Menu\Items\Internal;
+use Nethead\Menu\Items\Special;
 use Nethead\Menu\Items\Anchor;
 use Nethead\Menu\Items\Item;
 use Nethead\Markup\Tags\A;
-use Nethead\Menu\Items\Special;
 use Nethead\Menu\Menu;
 
 /**
@@ -47,15 +47,15 @@ class MarkupRenderer implements RendererInterface {
      * @return string
      *  Menu Item rendered to HTML string.
      */
-    public function render(object $item) : string
+    public function render(object $item): string
     {
         $itemType = get_class($item);
 
-        if (! array_key_exists($itemType, self::$renderers)) {
+        if (! array_key_exists($itemType, static::$renderers)) {
             throw new \RuntimeException('This renderer doesn\'t support provided item type!');
         }
 
-        $renderer = self::$renderers[$itemType];
+        $renderer = static::$renderers[$itemType];
 
         if (is_string($renderer) && method_exists($this, $renderer)) {
             return call_user_func([$this, $renderer], $item);
@@ -74,7 +74,7 @@ class MarkupRenderer implements RendererInterface {
      */
     public static function addRenderer(string $className, callable $renderer)
     {
-        self::$renderers[$className] = $renderer;
+        static::$renderers[$className] = $renderer;
     }
 
     /**
@@ -83,11 +83,9 @@ class MarkupRenderer implements RendererInterface {
      * @param Separator $item
      * @return string
      */
-    protected function renderSeparator(Separator $item)
+    protected function renderSeparator(Separator $item): string
     {
-        $separator = new Tag('li');
-
-        $separator->addChildren([
+        $separator = new Tag('li', [], [
             new Tag('hr')
         ]);
 
@@ -100,7 +98,7 @@ class MarkupRenderer implements RendererInterface {
      * @param SimpleItem $item
      * @return string
      */
-    protected function renderSimple(SimpleItem $item)
+    protected function renderSimple(SimpleItem $item): string
     {
         $wrapper = new Tag('li');
 
@@ -125,7 +123,7 @@ class MarkupRenderer implements RendererInterface {
      * @param Item $item
      * @return string
      */
-    protected function renderLink(Item $item)
+    protected function renderLink(Item $item): string
     {
         $wrapper = new Tag('li');
 

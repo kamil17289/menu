@@ -2,13 +2,13 @@
 
 namespace Nethead\Menu\Factories;
 
-use Nethead\Menu\Items\Anchor;
+use Nethead\Menu\Contracts\ItemInterface;
+use Nethead\Menu\Items\SimpleItem;
+use Nethead\Menu\Items\Separator;
 use Nethead\Menu\Items\External;
 use Nethead\Menu\Items\Internal;
-use Nethead\Menu\Items\Item;
-use Nethead\Menu\Items\Separator;
-use Nethead\Menu\Items\SimpleItem;
 use Nethead\Menu\Items\Special;
+use Nethead\Menu\Items\Anchor;
 
 /**
  * ItemsFactory is a helper for quick creating whole sets of items.
@@ -34,7 +34,7 @@ class ItemsFactory {
     /**
      * Custom factory methods.
      * Array of your own factory methods. You can add this by extending the ItemsFactory,
-     * or on runtime using the addFactory methods.
+     * or on runtime using the addFactory method.
      *
      * @see ItemsFactory::addFactory()
      * @var array
@@ -81,66 +81,56 @@ class ItemsFactory {
     }
 
     /**
-     * Process created item before returning it.
+     * Process created item before returning it and save it to the collection.
      *
-     * @param Item $item
-     * @return Item
+     * @param ItemInterface $item
+     * @return ItemInterface
      */
-    protected function processBeforeReturn(Item $item): Item
+    protected function storeItem(ItemInterface $item): ItemInterface
     {
         if (isset($this->config['template']) && ! empty($this->config['template'])) {
             $item->setTemplate($this->config['template']);
         }
+
+        $this->items[] = $item;
 
         return $item;
     }
 
     /**
      * Create a separator menu item.
-     * Separators doesn't have any function, they are just for decoration.
+     * Separators have no function, they are just for decoration.
      *
-     * @return Separator
+     * @return ItemInterface
      */
-    public function separator(): Separator
+    public function separator(): ItemInterface
     {
-        $separator = new Separator($this->config['menu'], $this->config['parent']);
-
-        $this->items[] = $separator;
-
-        $this->processBeforeReturn($separator);
-
-        return $separator;
+        return $this->storeItem(
+            new Separator($this->config['menu'], $this->config['parent'])
+        );
     }
 
     /**
      * @param array $innerHTML
-     * @return SimpleItem
+     * @return ItemInterface
      */
-    public function simple(array $innerHTML): SimpleItem
+    public function simple(array $innerHTML): ItemInterface
     {
-        $simpleItem = new SimpleItem($innerHTML, $this->config['menu'], $this->config['parent']);
-
-        $this->items[] = $simpleItem;
-
-        $this->processBeforeReturn($simpleItem);
-
-        return $simpleItem;
+        return $this->storeItem(
+            new SimpleItem($innerHTML, $this->config['menu'], $this->config['parent'])
+        );
     }
 
     /**
      * @param array $innerHTML
      * @param string $anchorID
-     * @return Anchor
+     * @return ItemInterface
      */
-    public function anchor(array $innerHTML, string $anchorID): Anchor
+    public function anchor(array $innerHTML, string $anchorID): ItemInterface
     {
-        $anchor = new Anchor($innerHTML, $anchorID, $this->config['menu'], $this->config['parent']);
-
-        $this->items[] = $anchor;
-
-        $this->processBeforeReturn($anchor);
-
-        return $anchor;
+        return $this->storeItem(
+            new Anchor($innerHTML, $anchorID, $this->config['menu'], $this->config['parent'])
+        );
     }
 
     /**
@@ -149,49 +139,37 @@ class ItemsFactory {
      * @param array $innerHTML
      * @param string $scheme
      * @param string $href
-     * @return Special
+     * @return ItemInterface
      */
-    public function special(array $innerHTML, string $scheme, string $href): Special
+    public function special(array $innerHTML, string $scheme, string $href): ItemInterface
     {
-        $link = new Special($innerHTML, $scheme, $href, $this->config['menu'], $this->config['parent']);
-
-        $this->items[] = $link;
-
-        $this->processBeforeReturn($link);
-
-        return $link;
+        return $this->storeItem(
+            new Special($innerHTML, $scheme, $href, $this->config['menu'], $this->config['parent'])
+        );
     }
 
     /**
      * @param array $innerHTML
      * @param string $url
-     * @return External
+     * @return ItemInterface
      */
-    public function external(array $innerHTML, string $url): External
+    public function external(array $innerHTML, string $url): ItemInterface
     {
-        $link = new External($innerHTML, $url, $this->config['menu'], $this->config['parent']);
-
-        $this->items[] = $link;
-
-        $this->processBeforeReturn($link);
-
-        return $link;
+        return $this->storeItem(
+            new External($innerHTML, $url, $this->config['menu'], $this->config['parent'])
+        );
     }
 
     /**
      * @param array $innerHTML
      * @param $url
-     * @return Internal
+     * @return ItemInterface
      */
-    public function internal(array $innerHTML, $url): Internal
+    public function internal(array $innerHTML, $url): ItemInterface
     {
-        $link = new Internal($innerHTML, $url, $this->config['menu'], $this->config['parent']);
-
-        $this->items[] = $link;
-
-        $this->processBeforeReturn($link);
-
-        return $link;
+        return $this->storeItem(
+            new Internal($innerHTML, $url, $this->config['menu'], $this->config['parent'])
+        );
     }
 
     /**
@@ -202,10 +180,12 @@ class ItemsFactory {
      */
     public function __call($name, $arguments)
     {
-        if (in_array($name, self::$methods)) {
+        if (array_key_exists($name, self::$methods)) {
             $arguments['config'] = $this->config;
 
-            return call_user_func_array(self::$methods[$name], $arguments);
+            return $this->storeItem(
+                call_user_func_array(self::$methods[$name], $arguments)
+            );
         }
 
         throw new \RuntimeException('Factory method ' . $name . ' not found!');

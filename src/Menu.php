@@ -2,9 +2,9 @@
 
 namespace Nethead\Menu;
 
-use Nethead\Menu\Contracts\ActivableItem;
 use Nethead\Menu\Contracts\ActivatorInterface;
 use Nethead\Menu\Contracts\RendererInterface;
+use Nethead\Menu\Contracts\ActivableItem;
 use Nethead\Menu\Factories\ItemsFactory;
 use Nethead\Menu\Items\Item;
 
@@ -140,7 +140,7 @@ class Menu implements \Countable {
      *
      * @return string
      */
-    public function render()
+    public function render(): string
     {
         if (is_null($this->activeItem)) {
             $this->findActiveItem();
@@ -182,7 +182,7 @@ class Menu implements \Countable {
      *
      * @return int
      */
-    public function count() : int
+    public function count(): int
     {
         return count($this->items);
     }
@@ -192,7 +192,7 @@ class Menu implements \Countable {
      *
      * @return RendererInterface
      */
-    public function getRenderer() : RendererInterface
+    public function getRenderer(): RendererInterface
     {
         return $this->renderer;
     }
@@ -202,7 +202,7 @@ class Menu implements \Countable {
      *
      * @return ActivatorInterface
      */
-    public function getActivator() : ActivatorInterface
+    public function getActivator(): ActivatorInterface
     {
         return $this->activator;
     }

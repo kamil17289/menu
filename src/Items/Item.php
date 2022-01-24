@@ -2,6 +2,7 @@
 
 namespace Nethead\Menu\Items;
 
+use Nethead\Menu\Contracts\ItemInterface;
 use Nethead\Menu\Factories\ItemsFactory;
 use Nethead\Menu\Menu;
 
@@ -14,7 +15,7 @@ use Nethead\Menu\Menu;
  *
  * @package Nethead\Menu\Items
  */
-abstract class Item {
+abstract class Item implements ItemInterface {
     /**
      * The Menu that this Item is bind to. Initially null, but
      * basically the item must be bind to a menu.
@@ -41,7 +42,7 @@ abstract class Item {
      * Template for this item, if set by the ItemsFactory.
      * Can be useful if you are using renderer not based on the Nethead\Markup package.
      *
-     * @see \Nethead\Menu\Factories\ItemsFactory::processBeforeReturn()
+     * @see \Nethead\Menu\Factories\ItemsFactory::storeItem()
      * @var string
      */
     protected $template = null;
@@ -111,7 +112,7 @@ abstract class Item {
      * @return bool
      *  TRUE if at least one child Item has been added, FALSE otherwise.
      */
-    public function hasChildren() : bool
+    public function hasChildren(): bool
     {
         return ! empty($this->children);
     }
@@ -121,7 +122,7 @@ abstract class Item {
      *
      * @return array
      */
-    public function getChildren() : array
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -132,7 +133,7 @@ abstract class Item {
      * @return bool
      *  TRUE if this is a child Item, FALSE otherwise.
      */
-    public function hasParent() : bool
+    public function hasParent(): bool
     {
         return ! is_null($this->parent);
     }
@@ -178,7 +179,7 @@ abstract class Item {
      *
      * @return string
      */
-    public function render() : string
+    public function render(): string
     {
         return $this->menu->getRenderer()->render($this);
     }

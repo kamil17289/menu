@@ -48,12 +48,12 @@ class MenusFactory {
         RendererInterface $renderer = null
     ) {
         if (is_null($activator)) {
-            $activatorClass = self::$defaults[ActivatorInterface::class];
+            $activatorClass = static::getDefaultActivator();
             $activator = new $activatorClass();
         }
 
         if (is_null($renderer)) {
-            $rendererClass = self::$defaults[RendererInterface::class];
+            $rendererClass = static::getDefaultRenderer();
             $renderer = new $rendererClass();
         }
 
@@ -64,5 +64,21 @@ class MenusFactory {
         }
 
         Repository::set($menu);
+    }
+
+    /**
+     * @return string
+     */
+    protected static function getDefaultActivator(): string
+    {
+        return static::$defaults[ActivatorInterface::class];
+    }
+
+    /**
+     * @return string
+     */
+    protected static function getDefaultRenderer(): string
+    {
+        return static::$defaults[RendererInterface::class];
     }
 }

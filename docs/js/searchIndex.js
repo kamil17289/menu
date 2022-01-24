@@ -96,6 +96,56 @@ Search.appendIndex(
             "summary": "Activate\u0020the\u0020Item.\u0020Item\u0020should\u0020be\u0020checked\u0020first\u0020with\u0020the\u0020test\u0028\u0029\u0020method\u0021",
             "url": "classes/Nethead-Menu-Contracts-ActivatorInterface.html#method_activate"
         },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface",
+            "name": "ItemInterface",
+            "summary": "Basic\u0020interface\u0020which\u0020defines\u0020how\u0020the\u0020menu\u0020Items\u0020should\u0020work.",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003AaddChild\u0028\u0029",
+            "name": "addChild",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_addChild"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003Agroup\u0028\u0029",
+            "name": "group",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_group"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003AhasChildren\u0028\u0029",
+            "name": "hasChildren",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_hasChildren"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003AgetChildren\u0028\u0029",
+            "name": "getChildren",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_getChildren"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003AhasParent\u0028\u0029",
+            "name": "hasParent",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_hasParent"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003AgetParent\u0028\u0029",
+            "name": "getParent",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_getParent"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003AsetTemplate\u0028\u0029",
+            "name": "setTemplate",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_setTemplate"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003AgetTemplate\u0028\u0029",
+            "name": "getTemplate",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_getTemplate"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Contracts\\ItemInterface\u003A\u003Arender\u0028\u0029",
+            "name": "render",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Contracts-ItemInterface.html#method_render"
+        },                {
             "fqsen": "\\Nethead\\Menu\\Contracts\\RendererInterface",
             "name": "RendererInterface",
             "summary": "RendererInterface\u0020defines\u0020the\u0020interface\u0020for\u0020Renderers.",
@@ -126,10 +176,10 @@ Search.appendIndex(
             "summary": "Returns\u0020all\u0020items\u0020created\u0020by\u0020this\u0020factory.",
             "url": "classes/Nethead-Menu-Factories-ItemsFactory.html#method_getCreatedItems"
         },                {
-            "fqsen": "\\Nethead\\Menu\\Factories\\ItemsFactory\u003A\u003AprocessBeforeReturn\u0028\u0029",
-            "name": "processBeforeReturn",
-            "summary": "Process\u0020created\u0020item\u0020before\u0020returning\u0020it.",
-            "url": "classes/Nethead-Menu-Factories-ItemsFactory.html#method_processBeforeReturn"
+            "fqsen": "\\Nethead\\Menu\\Factories\\ItemsFactory\u003A\u003AstoreItem\u0028\u0029",
+            "name": "storeItem",
+            "summary": "Process\u0020created\u0020item\u0020before\u0020returning\u0020it\u0020and\u0020save\u0020it\u0020to\u0020the\u0020collection.",
+            "url": "classes/Nethead-Menu-Factories-ItemsFactory.html#method_storeItem"
         },                {
             "fqsen": "\\Nethead\\Menu\\Factories\\ItemsFactory\u003A\u003Aseparator\u0028\u0029",
             "name": "separator",
@@ -190,6 +240,16 @@ Search.appendIndex(
             "name": "make",
             "summary": "Create\u0020a\u0020new\u0020Menu.\u0020Using\u0020this\u0020factory\u0020will\u0020automatically\u0020make\u0020the\u0020menu\naccessible\u0020via\u0020the\u0020Repository\u0020static\u0020methods.",
             "url": "classes/Nethead-Menu-Factories-MenusFactory.html#method_make"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Factories\\MenusFactory\u003A\u003AgetDefaultActivator\u0028\u0029",
+            "name": "getDefaultActivator",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Factories-MenusFactory.html#method_getDefaultActivator"
+        },                {
+            "fqsen": "\\Nethead\\Menu\\Factories\\MenusFactory\u003A\u003AgetDefaultRenderer\u0028\u0029",
+            "name": "getDefaultRenderer",
+            "summary": "",
+            "url": "classes/Nethead-Menu-Factories-MenusFactory.html#method_getDefaultRenderer"
         },                {
             "fqsen": "\\Nethead\\Menu\\Factories\\MenusFactory\u003A\u003A\u0024defaults",
             "name": "defaults",
@@ -513,7 +573,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\Nethead\\Menu\\Repository\u003A\u003Arender\u0028\u0029",
             "name": "render",
-            "summary": "Render\u0020entire\u0020menu\u0020of\u0020a\u0020given\u0020name\u0020to\u0020a\u0020HTML\u0020string.",
+            "summary": "Render\u0020entire\u0020menu\u0020of\u0020a\u0020given\u0020name\u0020to\u0020an\u0020HTML\u0020string.",
             "url": "classes/Nethead-Menu-Repository.html#method_render"
         },                {
             "fqsen": "\\Nethead\\Menu\\Repository\u003A\u003AoffsetExists\u0028\u0029",

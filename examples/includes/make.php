@@ -1,10 +1,9 @@
 <?php
 
-use Nethead\Menu\Factories\MenusFactory;
 use Nethead\Menu\Factories\ItemsFactory;
 use Nethead\Markup\Helpers\IconsFactory;
 
-MenusFactory::make('main-menu', function(ItemsFactory $factory) {
+return function (ItemsFactory $factory) {
     $factory->anchor(['This is an #anchor'], 'test-id');
 
     $factory->internal(['This is a group of links'], 'http://localhost:8002/group-links.php')->group(function (ItemsFactory $factory) {
@@ -21,5 +20,4 @@ MenusFactory::make('main-menu', function(ItemsFactory $factory) {
         $factory->external(['Mail me!'], 'mailto:example@example.com');
         $factory->special(['Give me a call'], 'tel', '555555555');
     });
-});
-
+};

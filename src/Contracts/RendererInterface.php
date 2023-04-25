@@ -16,8 +16,8 @@ interface RendererInterface {
      *
      * @param object $item
      *  Item that will be rendered to HTML.
-     * @return string
+     * @return mixed
      *  HTML string
      */
-    public function render(object $item) : string;
+    public function render(object $item);
 }

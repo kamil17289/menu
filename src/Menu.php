@@ -136,11 +136,11 @@ class Menu implements \Countable {
     }
 
     /**
-     * Render the menu as HTML.
+     * Render the menu in format provided by selected Renderer.
      *
      * @return string
      */
-    public function render(): string
+    public function render()
     {
         if (is_null($this->activeItem)) {
             $this->findActiveItem();

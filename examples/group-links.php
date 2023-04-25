@@ -1,6 +1,6 @@
 <?php
 include '../vendor/autoload.php';
-include 'menu.php';
+include 'includes/menu.php';
 
 use Nethead\Menu\Repository;
 
